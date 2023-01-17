@@ -78,7 +78,7 @@ actor{
     while (tmpS > 0)
     {
         tmpF := n % 2;
-        returnText := returnText # Nat.toText(tmpF);
+        returnText := Nat.toText(tmpF) # returnText;
         tmpS := tmpS / 2;
     };
 

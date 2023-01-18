@@ -3,6 +3,7 @@ import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
 import Array "mo:base/Array";
 import Buffer "mo:base/Buffer";
+import Debug "mo:base/Debug";
 
 actor{
     public func average_array(array : [Int]) : async Int {
@@ -51,22 +52,21 @@ actor{
 
     public func find_duplicates(a : [Nat]) : async [Nat] {
         let arraySize : Nat = a.size();
-        var returnBuff = Buffer.Buffer<Nat>(1);
-        var iterF = Iter.range(0,arraySize-1);  
-        var tmp : Nat = 0;
-        for (numF in iterF)
+        var returnArr : [Nat] = [];
+        let iterF = Iter.range(0,arraySize-1);
+        
+        for(numF in iterF)
         {
-            var iterS = Iter.range(numF, arraySize);
-            for(numS in iterS)
-            {
-                if(a[numF] == a[numS])
-                {
-                  returnBuff.add(a[numF]);  
-                }
-            };
+          var iterS = Iter.range(numF, arraySize);
+          for(numS in iterS)
+          {
+            if(a[numF] == a[numS]){
+              returnArr := Array.append<Nat>(returnArr, [a[numF]]);
+            }
+          };
         };
 
-        return returnBuff.toArray();
+        return returnArr;
     };  
 
   public func convert_to_binary(n : Nat) : async Text
@@ -77,13 +77,13 @@ actor{
 
     while (tmpS > 0)
     {
-        tmpF := n % 2;
+        tmpF := tmpS % 2;
         returnText := Nat.toText(tmpF) # returnText;
         tmpS := tmpS / 2;
     };
 
     return returnText;
-  }
+  };
 
 }
 

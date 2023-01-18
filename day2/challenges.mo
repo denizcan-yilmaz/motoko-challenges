@@ -52,22 +52,34 @@ actor{
 
     public func find_duplicates(a : [Nat]) : async [Nat] {
         let arraySize : Nat = a.size();
-        var returnArr : [Nat] = [];
-        let iterF = Iter.range(0,arraySize-1);
-        
-        for(numF in iterF)
+        var returnBuff = Buffer.Buffer<Nat>(10);
+        var iterF = Iter.range(0,arraySize-1);  
+        var tmp : Nat = 0;
+        for (numF in iterF)
         {
-          var iterS = Iter.range(numF, arraySize);
-          for(numS in iterS)
-          {
-            if(a[numF] == a[numS]){
-              returnArr := Array.append<Nat>(returnArr, [a[numF]]);
-            }
-          };
+            var iterS = Iter.range(numF+1, arraySize-1);
+            for(numS in iterS)
+            {
+                if(a[numF] == a[numS])
+                {
+                  var flag : Bool = false;
+                  for (element in returnBuff.vals()) {
+                    if (element == a[numF]){
+                      flag := true;
+                    }
+                  };    
+
+                  if(flag != true)
+                  {
+                    returnBuff.add(a[numF]);  
+                  }              
+                }
+            };
         };
 
-        return returnArr;
-    };  
+        return returnBuff.toArray();
+    };
+
 
   public func convert_to_binary(n : Nat) : async Text
   {

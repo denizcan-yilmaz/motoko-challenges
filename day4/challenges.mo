@@ -21,13 +21,13 @@ actor {
         Option.get(Buffer.indexOf<T>(val, buf, equal), buf.size() +1);
     };
 
-    let usernames = HashMap.HashMap<Principal, Text>(0, Principal.equal, Principal.hash);
+    let uNameMap = HashMap.HashMap<Principal, Text>(0, Principal.equal, Principal.hash);
 
     public shared ({ caller }) func add_username(name : Text) : async () {
-        usernames.put(caller, name);
+        uNameMap.put(caller, name);
     };
 
     public query func get_usernames() : async [(Principal, Text)] {
-        return (Iter.toArray(usernames.entries()));
+        return (Iter.toArray(uNameMap.entries()));
     };
 };
